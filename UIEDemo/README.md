@@ -364,6 +364,51 @@ CPU：Intel(R) Core(TM) i5-6200U CPU @ 2.30GHz
 
 内存：16.0 GB DDR3
 
+
+对于涉毒类法律文书，尝试使用GPU进行训练:
+
+[win10 安装Paddlepaddle-GPU](https://aistudio.baidu.com/aistudio/projectdetail/3383520?channelType=0&channel=0)
+
+  物理机参数
+  - 系统：Microsoft Windows [版本 10.0.19044.1826]
+  - CPU：Intel(R) Core(TM) i7-10750H CPU @ 2.60GHz   2.59 GHz
+  - 内存：16.0 GB DDR4
+  - GPU：NVIDIA GeForce RTX 3060 Laptop GPU
+  
+  如果使用安培架构显卡，即30系列显卡，必须安装11以上CUDA。30系显卡推荐安装11.2。
+
+  如果您的计算机有NVIDIA® GPU，请确保满足以下条件并且安装GPU版PaddlePaddle
+  
+  CUDA 工具包10.1/10.2 配合 cuDNN 7 (cuDNN版本>=7.6.5）
+  
+  CUDA 工具包11.0配合cuDNN v8.0.4
+  
+  CUDA 工具包11.1配合cuDNN v8.1.1
+  
+  CUDA 工具包11.2配合cuDNN v8.1.1
+
+  CUDA下载地址：[CUDA-toolkit-archive](https://developer.nvidia.cn/cuda-toolkit-archive)
+
+  cuDNN下载地址：[cuDNN-toolkit-archive](https://developer.nvidia.cn/rdp/cudnn-archive)
+  
+  Microsoft VisualStudio 2019 Community下载地址：[Visual Studio 2019 版本 16.11](https://docs.microsoft.com/zh-cn/visualstudio/releases/2019/release-notes)
+
+  ```shell
+  python ././uie/finetune.py 
+      --train_path ../data/drug/train.txt 
+      --dev_path ../data/drug/dev.txt 
+      --save_dir ../checkpoint 
+      --learning_rate 1e-5 
+      --batch_size 16 
+      --max_seq_len 512 
+      --num_epochs 50 
+      --model uie-base 
+      --seed 1000 
+      --logging_steps 1 
+      --valid_steps 10 
+      --device gpu
+  ```
+
 #### 2.5 模型评估
 通过运行以下命令进行模型评估：
 
