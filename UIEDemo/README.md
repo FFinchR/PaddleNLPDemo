@@ -411,18 +411,19 @@ python ./uie/finetune.py
   python -m pip install paddlepaddle-gpu==2.3.1.post116 -f https://www.paddlepaddle.org.cn/whl/windows/mkl/avx/stable.html
   ```
 
+单卡启动：
   ```shell
-  python ././uie/finetune.py 
+  python ./finetune.py 
       --train_path ../data/drug/train.txt 
       --dev_path ../data/drug/dev.txt 
       --save_dir ../checkpoint 
       --learning_rate 1e-5 
-      --batch_size 16 
+      --batch_size 4 
       --max_seq_len 512 
       --num_epochs 50 
       --model uie-base 
       --seed 1000 
-      --logging_steps 1 
+      --logging_steps 10 
       --valid_steps 10 
       --device gpu
   ```
@@ -435,6 +436,23 @@ python ./uie/finetune.py
   pip install Scipy==1.3.1
   ```
   
+  多卡启动：
+  使用3张GeForce 2080Ti 12GB进行多卡训练。
+  ```shell
+  python -u -m paddle.distributed.launch --gpus "1,2,7" ./finetune.py 
+    --train_path ./data/drug/train.txt 
+    --dev_path ./data/drug/dev.txt 
+    --save_dir ./checkpoint 
+    --learning_rate 1e-5 
+    --batch_size 16 
+    --max_seq_len 512 
+    --num_epochs 100 
+    --model uie-base 
+    --seed 1000 
+    --logging_steps 10 
+    --valid_steps 100 
+    --device gpu
+  ```
 #### 2.5 模型评估
 通过运行以下命令进行模型评估：
 
