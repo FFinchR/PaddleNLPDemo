@@ -15,4 +15,4 @@
 
 [上海市高级人民法院--裁判文书](http://www.hshfy.sh.cn/shfy/gweb2017/flws_list_new.jsp)
 
-
+[官网教程--Windows下的PIP安装](https://www.paddlepaddle.org.cn/documentation/docs/zh/install/pip/windows-pip.html)

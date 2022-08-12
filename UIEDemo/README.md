@@ -7,7 +7,7 @@
 pip install paddlenlp
 pip install paddlepaddle -i https://mirror.baidu.com/pypi/simple
 ```
-注意：PaddleNLP需要PyArrow支持，而PyArrow需要安装64位Python
+注意：PaddleNLP需要PyArrow支持，而PyArrow需要安装64位Python，建议使用Python3.7 64位版本。
 
 ## 信息抽取
 
@@ -364,10 +364,11 @@ CPU：Intel(R) Core(TM) i5-6200U CPU @ 2.30GHz
 
 内存：16.0 GB DDR3
 
-
 对于涉毒类法律文书，尝试使用GPU进行训练:
 
 [win10 安装Paddlepaddle-GPU](https://aistudio.baidu.com/aistudio/projectdetail/3383520?channelType=0&channel=0)
+
+[官网教程--Windows下的PIP安装](https://www.paddlepaddle.org.cn/documentation/docs/zh/install/pip/windows-pip.html)
 
   物理机参数
   - 系统：Microsoft Windows [版本 10.0.19044.1826]
@@ -394,6 +395,15 @@ CPU：Intel(R) Core(TM) i5-6200U CPU @ 2.30GHz
   Microsoft VisualStudio 2019 Community下载地址：[Visual Studio 2019 版本 16.11](https://docs.microsoft.com/zh-cn/visualstudio/releases/2019/release-notes)
 
   ```shell
+  nvidia-smi
+  ```
+
+  执行以上指令后发现本机安装的NVIDIA驱动版本对应的CUDA Driver版本为11.6，故下载CUDA工具包11.6配合cuDNN v8.4，paddlepaddle版本也选择CUDA11.6的版本。
+  ```shell
+  python -m pip install paddlepaddle-gpu==2.3.1.post116 -f https://www.paddlepaddle.org.cn/whl/windows/mkl/avx/stable.html
+  ```
+
+  ```shell
   python ././uie/finetune.py 
       --train_path ../data/drug/train.txt 
       --dev_path ../data/drug/dev.txt 
@@ -408,7 +418,15 @@ CPU：Intel(R) Core(TM) i5-6200U CPU @ 2.30GHz
       --valid_steps 10 
       --device gpu
   ```
-
+  当第一个epoch结束时，可能遇到如下报错：
+  ```text
+  Process finished with exit code -1073741819 (0xC0000005)
+  ```
+  解决方法是将Scipy版本降低至1.3.1
+  ```shell
+  pip install Scipy==1.3.1
+  ```
+  
 #### 2.5 模型评估
 通过运行以下命令进行模型评估：
 
