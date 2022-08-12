@@ -5,7 +5,7 @@ from paddlenlp import Taskflow
 
 def legal_judgement_ie(content):
     schema = ['法院', {'原告': '原告委托代理人'}, {'被告': '被告委托代理人'}]  # Define the schema for entity extraction
-    ie = Taskflow('information_extraction', schema=schema, task_path='./checkpoint/model_best') # task_path='./checkpoint/model_best'
+    ie = Taskflow('information_extraction', schema=schema, task_path='./legal_judgment_checkpoint/model_best') # task_path='./checkpoint/model_best'
     pprint(ie("上海金融法院"
               "民事判决书"
               "案号：（2022）沪74民终186号"
