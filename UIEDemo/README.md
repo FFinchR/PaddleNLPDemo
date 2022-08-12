@@ -21,6 +21,7 @@ pip install paddlepaddle -i https://mirror.baidu.com/pypi/simple
 ['地点', '时间', '毒品重量', {'人名': '人名'}, {'人名': '毒品类型'}, {'人名': '人名'}]
 ```
 ### 1.开箱即用
+#### 判决书场景
 - 在判决书场景同时对文本进行实体抽取和关系抽取，schema可按照如下方式进行构造：
     ```text
     ['法院', {'原告': '委托代理人'}, {'被告': '委托代理人'}]
@@ -93,7 +94,7 @@ pip install paddlepaddle -i https://mirror.baidu.com/pypi/simple
     ```
     可以发现，抽取的结果存在一定问题，如原告、被告识别反了，委托代理人识别错误等。
 
-
+####涉毒类法律文书场景
 - 对另一个场景，数据集来自CAIL2022--司法文本信息抽取，主要内容来自于网络公开的若干涉毒类罪名法律文书，预定义了5种实体和4种关系类型，实体分别为`人名实体(Nh)、地名实体(Ns)、时间实体(NT)、毒品类型实体(NDR)、和毒品重量实体(NW)`，关系分别为`贩卖给（人）( sell_drug_to )，贩卖（毒品）( traffic_in )，持有( possess )，非法容留( provide_shelter_for )`。
 
     ```python
@@ -220,18 +221,19 @@ pip install paddlepaddle -i https://mirror.baidu.com/pypi/simple
 └── README.md
 ```
 #### 2.2 标注数据
+#### 判决书场景
 - 对于判决书数据，我们需要自己标注，生产数据集。
 
     使用数据标注平台[doccano](https://github.com/doccano/doccano) 进行数据标注，doccano导出数据后可通过[doccano.py](./uie/doccano.py)脚本将数据转换为输入模型时需要的形式。
     
     步骤详见 [doccano数据标注指南](./uie/doccano.md)，以及 [PaddleNLP开放域信息抽取](https://aistudio.baidu.com/aistudio/projectdetail/3914778?channelType=0&channel=0)
     
-    STEP1 安装doccano
+    - STEP1 安装doccano
     
     ```shell
     pip install doccano
     ```
-    STEP2 初始化数据库与账户
+    - STEP2 初始化数据库与账户
     ```shell
     doccano init
     doccano createuser --username admin --password pass
@@ -259,7 +261,7 @@ pip install paddlepaddle -i https://mirror.baidu.com/pypi/simple
     Role created successfully "annotator"
     Role created successfully "annotation_approver"
     ```
-    STEP3 启动doccano
+    - STEP3 启动doccano
     
     首先，在终端中运行下面的代码来启动WebServer
     
@@ -273,7 +275,7 @@ pip install paddlepaddle -i https://mirror.baidu.com/pypi/simple
     ```
     此时，我们就完成了doccano的启动。
     
-    STEP4 运行doccano来标注实体与关系
+    - STEP4 运行doccano来标注实体与关系
     
     从[上海市高级人民法院网](http://www.hshfy.sh.cn/shfy/gweb2017/flws_list_new.jsp)下载部分判决书，并转换成txt格式，一行即是一个标注子任务：[dataset.txt](./dataset.txt)
     ```text
@@ -292,12 +294,14 @@ pip install paddlepaddle -i https://mirror.baidu.com/pypi/simple
     上海市第二中级人民法院 民事判决书 案号：（2022）沪02民终4311号 上诉人（原审原告）：张伯毅，男，1949年3月12日出生，汉族，户籍所在地上海市。 上诉人（原审原告）：金立彩，女，1952年12月5日出生，汉族，户籍所在地上海市。 上诉人（原审原告）：张某1，男，1982年9月23日出生，汉族，户籍所在地上海市。 上诉人（原审原告）：XXX，女，1982年8月22日出生，汉族，户籍所在地上海市。 上诉人（原审原告）：张某2，男，2008年9月25日出生，汉族，户籍所在地上海市。 法定代理人：张某1（系张某2之父），男，户籍所在地上海市。 法定代理人：XXX（系张某2之母），女，户籍所在地上海市。 上列五上诉人共同委托诉讼代理人：孙丹毅，上海汉盛律师事务所律师。 上诉人（原审被告）：张志毅，男，1956年4月16日出生，汉族，户籍所在地上海市。 委托诉讼代理人：栾伟强，上海劲力律师事务所律师。 委托诉讼代理人：高圳南，上海劲力律师事务所律师。
     上海市第二中级人民法院 民事判决书 案号：（2022）沪02民终4299号 上诉人（原审原告）：李荣芳，女，1957年7月18日出生，汉族，户籍所在地上海市。 委托诉讼代理人：蒋新中，上海正贯长虹律师事务所律师。 被上诉人（原审被告）：厉国义，男，1958年1月25日出生，汉族，户籍所在地上海市。 被上诉人（原审被告）：厉永智，男，1991年3月18日出生，汉族，户籍所在地上海市。 上列两被上诉人共同委托诉讼代理人：李杨，上海市天一律师事务所律师。
     ```
-    
     导入docanno并完成实体标注与关系标注，再导出数据集，得到[admin.jsonl](./admin.jsonl)
 
-#### 2.3 抽取式任务数据转换
+#### 涉毒类法律文书场景
 
-- 对于判决书场景
+- 数据集内容见[./data/CAIL2022_ie](./data/CAIL2022_ie)
+
+#### 2.3 抽取式任务数据转换
+#### 判决书场景
   - 当标注完成后，在 doccano 平台上导出 `JSONL(relation)` 形式的文件，并将其重命名为 `doccano_ext.json` 后，放入 `./data` 目录下。
   - 通过 [doccano.py](./uie/doccano.py) 脚本进行数据形式转换，然后便可以开始进行相应模型训练。
   - 执行后会在[./data](./data)目录下生成训练/验证/测试集文件。
@@ -308,21 +312,29 @@ pip install paddlepaddle -i https://mirror.baidu.com/pypi/simple
         --save_dir ./data 
         --negative_ratio 5
     ```
-- 对于涉毒类法律文书场景
-  - 数据集内容见[./data/CAIL2022_ie](./data/CAIL2022_ie)
+    
+#### 涉毒类法律文书场景
   - 由于该数据集格式参考NYT数据集格式，PaddleNLP提供的数据形式转换工具无法直接使用，所以需要对其进行改造。详细改造内容可见[utils_cust.py](./uie/utils_cust.py)
   - 接着需要将[train.json](./data/CAIL2022_ie/train.json)放入`./data`目录下，并修改其实体名与关系名为中文。
-- ```shell
-  python ./uie/doccano.py 
-        --doccano_file ./data/train.json 
-        --task_type "ext" 
-        --save_dir ./data/drug 
-        --negative_ratio 5
+  ```shell
+    python ./uie/doccano.py 
+          --doccano_file ./data/train.json 
+          --task_type "ext" 
+          --save_dir ./data/drug 
+          --negative_ratio 5
   ```
-  - 执行后会在[./data/drug](./data/drug)目录下生成训练/验证/测试集文件。
+  - 之后会在[./data/drug](./data/drug)目录下生成训练/验证/测试集文件。
 #### 2.4 模型微调
-
+#### 判决书场景
 tips: 推荐使用GPU环境，否则可能会内存溢出。CPU环境下，可以修改model为uie-tiny，适当调下batch_size。
+
+物理机参数：
+
+  - 系统：Microsoft Windows [版本 10.0.18363.418]
+  
+  - CPU：Intel(R) Core(TM) i5-6200U CPU @ 2.30GHz
+  
+  - 内存：16.0 GB DDR3
 
 这里使用CPU环境：
 
@@ -356,15 +368,11 @@ python ./uie/finetune.py
 - `valid_steps`: evaluate的间隔steps数，默认100。
 - `device`: 选用什么设备进行训练，可选cpu或gpu。
 
-物理机参数：
-
-系统：Microsoft Windows [版本 10.0.18363.418]
-
-CPU：Intel(R) Core(TM) i5-6200U CPU @ 2.30GHz
-
-内存：16.0 GB DDR3
+#### 涉毒类法律文书场景
 
 对于涉毒类法律文书，尝试使用GPU进行训练:
+
+注意：只需要下载CUDA、cuDNN、VisualStudio即可，不需要安装Anaconda。
 
 [win10 安装Paddlepaddle-GPU](https://aistudio.baidu.com/aistudio/projectdetail/3383520?channelType=0&channel=0)
 
@@ -372,9 +380,9 @@ CPU：Intel(R) Core(TM) i5-6200U CPU @ 2.30GHz
 
   物理机参数
   - 系统：Microsoft Windows [版本 10.0.19044.1826]
-  - CPU：Intel(R) Core(TM) i7-10750H CPU @ 2.60GHz   2.59 GHz
-  - 内存：16.0 GB DDR4
-  - GPU：NVIDIA GeForce RTX 3060 Laptop GPU
+    - CPU：Intel(R) Core(TM) i7-10750H CPU @ 2.60GHz   2.59 GHz
+    - 内存：16.0 GB DDR4
+    - GPU：NVIDIA GeForce RTX 3060 Laptop GPU
   
   如果使用安培架构显卡，即30系列显卡，必须安装11以上CUDA。30系显卡推荐安装11.2。
 
@@ -403,18 +411,19 @@ CPU：Intel(R) Core(TM) i5-6200U CPU @ 2.30GHz
   python -m pip install paddlepaddle-gpu==2.3.1.post116 -f https://www.paddlepaddle.org.cn/whl/windows/mkl/avx/stable.html
   ```
 
+单卡启动：
   ```shell
-  python ././uie/finetune.py 
+  python ./finetune.py 
       --train_path ../data/drug/train.txt 
       --dev_path ../data/drug/dev.txt 
       --save_dir ../checkpoint 
       --learning_rate 1e-5 
-      --batch_size 16 
+      --batch_size 4 
       --max_seq_len 512 
       --num_epochs 50 
       --model uie-base 
       --seed 1000 
-      --logging_steps 1 
+      --logging_steps 10 
       --valid_steps 10 
       --device gpu
   ```
@@ -427,6 +436,23 @@ CPU：Intel(R) Core(TM) i5-6200U CPU @ 2.30GHz
   pip install Scipy==1.3.1
   ```
   
+  多卡启动：
+  使用3张GeForce 2080Ti 12GB进行多卡训练。
+  ```shell
+  python -u -m paddle.distributed.launch --gpus "1,2,7" ./finetune.py 
+    --train_path ./data/drug/train.txt 
+    --dev_path ./data/drug/dev.txt 
+    --save_dir ./checkpoint 
+    --learning_rate 1e-5 
+    --batch_size 16 
+    --max_seq_len 512 
+    --num_epochs 100 
+    --model uie-base 
+    --seed 1000 
+    --logging_steps 10 
+    --valid_steps 100 
+    --device gpu
+  ```
 #### 2.5 模型评估
 通过运行以下命令进行模型评估：
 
