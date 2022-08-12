@@ -10,8 +10,7 @@ def legal_judgement_ie(content):
     pprint(ie(content))
 
 def drug_ie(content):
-    schema = ['地点', '时间', '毒品重量', {'涉案人': '涉案人'}, {'涉案人': '毒品类型'},
-              {'涉案人': '涉案人'}]  # Define the schema for entity extraction
+    schema = ['地点', '时间', '毒品重量', {'涉案人': '涉案人'}, {'涉案人': '毒品类型'}]  # Define the schema for entity extraction
     ie = Taskflow('information_extraction', schema=schema, task_path='./drug_checkpoint/model_best')
     pprint(content)
     pprint(ie(content))  # Better print results using pprint
@@ -31,5 +30,5 @@ if __name__ == '__main__':
     #           "委托诉讼代理人：王坤，北京德和衡（上海）律师事务所律师。")
     with open("./data/CAIL2022_ie/step1_test.json", "r", encoding="utf-8") as f:
         raw_examples = f.readlines()
-    line = raw_examples[1]
+    line = raw_examples[2]
     drug_ie(line)
