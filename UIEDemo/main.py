@@ -27,8 +27,8 @@ def drug_ie(content):
 
 
 if __name__ == '__main__':
-    # legal_judgement_ie("")
-    with open("./data/CAIL2022_ie/step1_test.json", "r", encoding="utf-8") as f:
-        raw_examples = f.readlines()
-    line = raw_examples[1]
-    drug_ie(line)
+    legal_judgement_ie("")
+    # with open("./data/CAIL2022_ie/step1_test.json", "r", encoding="utf-8") as f:
+    #     raw_examples = f.readlines()
+    # line = raw_examples[1]
+    # drug_ie(line)
