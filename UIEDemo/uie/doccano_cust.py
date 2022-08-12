@@ -20,7 +20,7 @@ from decimal import Decimal
 import numpy as np
 from paddlenlp.utils.log import logger
 
-from utils import set_seed, convert_ext_examples, convert_cls_examples
+from utils_cust import set_seed, convert_ext_examples, convert_cls_examples
 
 
 def do_convert():

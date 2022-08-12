@@ -317,8 +317,8 @@ pip install paddlepaddle -i https://mirror.baidu.com/pypi/simple
   - 由于该数据集格式参考NYT数据集格式，PaddleNLP提供的数据形式转换工具无法直接使用，所以需要对其进行改造。详细改造内容可见[utils_cust.py](./uie/utils_cust.py)
   - 接着需要将[train.json](./data/CAIL2022_ie/train.json)放入`./data`目录下，并修改其实体名与关系名为中文。
   ```shell
-    python ./uie/doccano.py 
-          --doccano_file ./data/train.json 
+    python ./uie/doccano_cust.py 
+          --doccano_file ./data/small_train.json 
           --task_type "ext" 
           --save_dir ./data/drug 
           --negative_ratio 5
