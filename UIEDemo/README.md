@@ -316,6 +316,7 @@ pip install paddlepaddle -i https://mirror.baidu.com/pypi/simple
 #### 涉毒类法律文书场景
   - 由于该数据集格式参考NYT数据集格式，PaddleNLP提供的数据形式转换工具无法直接使用，所以需要对其进行改造。详细改造内容可见[utils_cust.py](./uie/utils_cust.py)
   - 接着需要将[train.json](./data/CAIL2022_ie/train.json)放入`./data`目录下，并修改其实体名与关系名为中文。
+  - todo 数据形式转换工具的改造还存在问题
   ```shell
     python ./uie/doccano_cust.py 
           --doccano_file ./data/small_train.json 
@@ -328,31 +329,25 @@ pip install paddlepaddle -i https://mirror.baidu.com/pypi/simple
 #### 判决书场景
 tips: 推荐使用GPU环境，否则可能会内存溢出。CPU环境下，可以修改model为uie-tiny，适当调下batch_size。
 
-物理机参数：
+[Linux下的PIP安装](https://www.paddlepaddle.org.cn/documentation/docs/zh/install/pip/linux-pip.html)
 
-  - 系统：Microsoft Windows [版本 10.0.18363.418]
-  
-  - CPU：Intel(R) Core(TM) i5-6200U CPU @ 2.30GHz
-  
-  - 内存：16.0 GB DDR3
-
-这里使用CPU环境：
-
-```shell
-python ./uie/finetune.py 
+  多卡启动：
+  使用3张GeForce 2080Ti进行多卡训练。
+  ```shell
+  python -u -m paddle.distributed.launch --gpus "1,2,7" ./finetune.py 
     --train_path ./data/train.txt 
     --dev_path ./data/dev.txt 
-    --save_dir ./checkpoint 
+    --save_dir ./legal_judgment_checkpoint 
     --learning_rate 1e-5 
-    --batch_size 4 
+    --batch_size 8 
     --max_seq_len 512 
-    --num_epochs 10 
-    --model uie-tiny 
+    --num_epochs 50 
+    --model uie-base 
     --seed 1000 
-    --logging_steps 1 
-    --valid_steps 10 
-    --device cpu
-```
+    --logging_steps 10 
+    --valid_steps 10
+    --device gpu
+  ```
 可配置参数说明：
 
 - `train_path`: 训练集文件路径。
@@ -370,7 +365,7 @@ python ./uie/finetune.py
 
 #### 涉毒类法律文书场景
 
-对于涉毒类法律文书，尝试使用GPU进行训练:
+对于涉毒类法律文书，以下是使用移动端GPU进行训练的过程:
 
 注意：只需要下载CUDA、cuDNN、VisualStudio即可，不需要安装Anaconda。
 
@@ -407,6 +402,7 @@ python ./uie/finetune.py
   ```
 
   执行以上指令后发现本机安装的NVIDIA驱动版本对应的CUDA Driver版本为11.6，故下载CUDA工具包11.6配合cuDNN v8.4，paddlepaddle版本也选择CUDA11.6的版本。
+  
   ```shell
   python -m pip install paddlepaddle-gpu==2.3.1.post116 -f https://www.paddlepaddle.org.cn/whl/windows/mkl/avx/stable.html
   ```
@@ -435,24 +431,7 @@ python ./uie/finetune.py
   ```shell
   pip install Scipy==1.3.1
   ```
-  
-  多卡启动：
-  使用3张GeForce 2080Ti 12GB进行多卡训练。
-  ```shell
-  python -u -m paddle.distributed.launch --gpus "1,2,7" ./finetune.py 
-    --train_path ./data/drug/train.txt 
-    --dev_path ./data/drug/dev.txt 
-    --save_dir ./checkpoint 
-    --learning_rate 1e-5 
-    --batch_size 16 
-    --max_seq_len 512 
-    --num_epochs 100 
-    --model uie-base 
-    --seed 1000 
-    --logging_steps 10 
-    --valid_steps 100 
-    --device gpu
-  ```
+
 #### 2.5 模型评估
 通过运行以下命令进行模型评估：
 
@@ -470,7 +449,7 @@ python ./uie/evaluate.py
 
 ```shell
 python ./uie/evaluate.py 
-    --model_path ./checkpoint/model_best 
+    --model_path ./legal_judgment_checkpoint/model_best 
     --test_path ./data/dev.txt 
     --debug
 ```
@@ -478,21 +457,21 @@ python ./uie/evaluate.py
 输出打印示例：
 
 ```text
-[2022-08-11 17:07:32,192] [    INFO] - We are using <class 'paddlenlp.transformers.ernie.tokenizer.ErnieTokenizer'> to load './checkpoint/model_best'.
-[2022-08-11 17:08:43,692] [    INFO] - Class Name: 原告
-[2022-08-11 17:08:43,693] [    INFO] - Evaluation Precision: 1.00000 | Recall: 1.00000 | F1: 1.00000
-[2022-08-11 17:08:45,422] [    INFO] - -----------------------------
-[2022-08-11 17:08:45,423] [    INFO] - Class Name: 法院
-[2022-08-11 17:08:45,425] [    INFO] - Evaluation Precision: 1.00000 | Recall: 1.00000 | F1: 1.00000
-[2022-08-11 17:08:47,084] [    INFO] - -----------------------------
-[2022-08-11 17:08:47,085] [    INFO] - Class Name: 被告
-[2022-08-11 17:08:47,086] [    INFO] - Evaluation Precision: 1.00000 | Recall: 1.00000 | F1: 1.00000
-[2022-08-11 17:08:48,818] [    INFO] - -----------------------------
-[2022-08-11 17:08:48,819] [    INFO] - Class Name: 原告委托代理人
-[2022-08-11 17:08:48,819] [    INFO] - Evaluation Precision: 1.00000 | Recall: 1.00000 | F1: 1.00000
-[2022-08-11 17:08:50,960] [    INFO] - -----------------------------
-[2022-08-11 17:08:50,961] [    INFO] - Class Name: 被告委托代理人
-[2022-08-11 17:08:50,961] [    INFO] - Evaluation Precision: 0.50000 | Recall: 1.00000 | F1: 0.66667
+[2022-08-12 17:22:45,981] [    INFO] - -----------------------------
+[2022-08-12 17:22:45,981] [    INFO] - Class Name: 原告
+[2022-08-12 17:22:45,981] [    INFO] - Evaluation Precision: 1.00000 | Recall: 1.00000 | F1: 1.00000
+[2022-08-12 17:22:46,012] [    INFO] - -----------------------------
+[2022-08-12 17:22:46,012] [    INFO] - Class Name: 法院
+[2022-08-12 17:22:46,012] [    INFO] - Evaluation Precision: 1.00000 | Recall: 1.00000 | F1: 1.00000
+[2022-08-12 17:22:46,043] [    INFO] - -----------------------------
+[2022-08-12 17:22:46,043] [    INFO] - Class Name: 被告
+[2022-08-12 17:22:46,043] [    INFO] - Evaluation Precision: 1.00000 | Recall: 1.00000 | F1: 1.00000
+[2022-08-12 17:22:46,073] [    INFO] - -----------------------------
+[2022-08-12 17:22:46,073] [    INFO] - Class Name: 原告委托代理人
+[2022-08-12 17:22:46,073] [    INFO] - Evaluation Precision: 1.00000 | Recall: 1.00000 | F1: 1.00000
+[2022-08-12 17:22:46,103] [    INFO] - -----------------------------
+[2022-08-12 17:22:46,103] [    INFO] - Class Name: 被告委托代理人
+[2022-08-12 17:22:46,103] [    INFO] - Evaluation Precision: 1.00000 | Recall: 1.00000 | F1: 1.00000
 ```
 
 可配置参数说明：
@@ -523,28 +502,36 @@ python ./uie/evaluate.py
               "法定代表人：陈易明，总经理。"
               "委托诉讼代理人：邹华恩，北京德和衡（上海）律师事务所律师。"
               "委托诉讼代理人：王坤，北京德和衡（上海）律师事务所律师。"))
-    [{'原告': [{'end': 147,
-          'probability': 0.6360448965770047,
-          'relations': {'委托代理人': [{'end': 214,
-                                   'probability': 0.7013958235459086,
-                                   'start': 211,
-                                   'text': '邹华恩'}]},
-          'start': 135,
-          'text': '海发宝诚融资租赁有限公司'}],
+  [{'原告': [{'end': 147,
+            'probability': 0.9939836124423422,
+            'relations': {'原告委托代理人': [{'end': 214,
+                                       'probability': 0.9940615194536804,
+                                       'start': 211,
+                                       'text': '邹华恩'},
+                                      {'end': 242,
+                                       'probability': 0.9902140498778493,
+                                       'start': 240,
+                                       'text': '王坤'}]},
+            'start': 135,
+            'text': '海发宝诚融资租赁有限公司'}],
     '法院': [{'end': 6,
-            'probability': 0.9598083779643574,
+            'probability': 0.9994039150743141,
             'start': 0,
             'text': '上海金融法院'}],
     '被告': [{'end': 52,
-            'probability': 0.9164069273735791,
-            'relations': {'委托代理人': [{'end': 94,
-                                     'probability': 0.5609007313863543,
-                                     'start': 91,
-                                     'text': '李明修'}]},
+            'probability': 0.9978744305253144,
+            'relations': {'被告委托代理人': [{'end': 111,
+                                       'probability': 0.9736823939226369,
+                                       'start': 109,
+                                       'text': '李阳'},
+                                      {'end': 94,
+                                       'probability': 0.9666654534422037,
+                                       'start': 91,
+                                       'text': '李明修'}]},
             'start': 39,
             'text': '潢川县发展投资有限责任公司'}]}]
     ```
-  从预测结果来看，能正确识别出原告与被告，虽然只识别出了原告与被告的第一个委托代理人，但至少是正确的，推测可能是训练数据或训练轮次太少的原因。
+  从预测结果来看，训练出的模型能够正确标注出schema里的实体与关系。
 - 对于涉毒类法律文书场景
 
 
