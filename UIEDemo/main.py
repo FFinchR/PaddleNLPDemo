@@ -22,12 +22,13 @@ def drug_ie(content):
     schema = ['地点', '时间', '毒品重量', {'涉案人': '涉案人'}, {'涉案人': '毒品类型'},
               {'涉案人': '涉案人'}]  # Define the schema for entity extraction
     ie = Taskflow('information_extraction', schema=schema, task_path='./data/drug/checkpoint/model_best')
-    pprint(
-        ie(
-            "**市第三市区人民检察院指控，2014年10月下旬的一天中午，被告人张守东接到李某的电话称要购买毒品（冰毒），双方约好在李某位于 ** 市清溪镇荔横路9号好运来公寓209房的暂住处进行交易后，张守东到 ** 市清溪镇荔横路9号好运来公寓209房，以每包100元人民币的价格贩卖给李某7小包毒品（冰毒，每包约1克，共7克）。"
-        ))  # Better print results using pprint
+    pprint(content)
+    pprint(ie(content))  # Better print results using pprint
 
 
 if __name__ == '__main__':
     # legal_judgement_ie("")
-    drug_ie("")
+    with open("./data/CAIL2022_ie/step1_test.json", "r", encoding="utf-8") as f:
+        raw_examples = f.readlines()
+    line = raw_examples[1]
+    drug_ie(line)
