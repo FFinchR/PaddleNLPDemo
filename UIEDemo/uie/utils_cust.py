@@ -529,6 +529,8 @@ def convert_ext_examples(raw_examples,
             relation_example_map = {}
             for relation in relations:
                 predicate = relation["label"]  # todo type => label
+                if predicate == "NA":
+                    continue
                 subject_text = relation[
                     "em1Text"]  # todo  subject_id = relation["from_id"] => subject_text = relation["em1Text"]
                 object_text = relation[
