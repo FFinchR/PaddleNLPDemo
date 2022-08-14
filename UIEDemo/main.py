@@ -30,5 +30,5 @@ if __name__ == '__main__':
     #           "委托诉讼代理人：王坤，北京德和衡（上海）律师事务所律师。")
     with open("./data/CAIL2022_ie/step1_test.json", "r", encoding="utf-8") as f:
         raw_examples = f.readlines()
-    line = raw_examples[2]
+    line = raw_examples[92]
     drug_ie(line)

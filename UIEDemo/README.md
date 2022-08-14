@@ -533,6 +533,13 @@ python ./uie/evaluate.py
     ```
   从预测结果来看，训练出的模型能够正确标注出schema里的实体与关系。
 - 对于涉毒类法律文书场景
+  ```python
+  >>> schema = ['地点', '时间', '毒品重量', {'涉案人': '涉案人'}, {'涉案人': '毒品类型'}]  
+  >>> ie = Taskflow('information_extraction', schema=schema, task_path='./drug_checkpoint/model_best')
+  >>> pprint(content)
+  >>> pprint(ie(content))
+  '2017年6月14日下午，吸毒人员杨某通过电话向李某（另案处理）求购毒品“K粉”，李某即问同在双桥镇玩的被告人廖某是否有货，随即廖某又与廖某联系并确定有货\n'
+  ```
 
 
 
