@@ -1,4 +1,12 @@
 # PaddleNLP信息抽取uie-demo
+## Content
+PaddleNLP Taskflow UIE（通用信息抽取）案例预研与搭建
+1. 完成Taskflow UIE工具的Windows与Linux环境搭建。
+2. 使用doccano标注工具完成法律判决书数据的标注与导出。
+3. 改造工具类，使其适配涉毒类法律文书数据格式（NYT数据集格式）
+4. 在法律判决书场景与涉毒类法律文书场景中使用UIE工具完成零样本抽取，结果表示在细分场景下，零样本抽取效果有限。
+5. 通过小样本训练，微调UIE模型，提升抽取效果。
+
 法律场景-判决书抽取
 
 ![image](https://user-images.githubusercontent.com/40840292/169017863-442c50f1-bfd4-47d0-8d95-8b1d53cfba3c.png)
@@ -94,7 +102,7 @@ pip install paddlepaddle -i https://mirror.baidu.com/pypi/simple
     ```
     可以发现，抽取的结果存在一定问题，如原告、被告识别反了，委托代理人识别错误等。
 
-####涉毒类法律文书场景
+#### 涉毒类法律文书场景
 - 对另一个场景，数据集来自CAIL2022--司法文本信息抽取，主要内容来自于网络公开的若干涉毒类罪名法律文书，预定义了5种实体和4种关系类型，实体分别为`人名实体(Nh)、地名实体(Ns)、时间实体(NT)、毒品类型实体(NDR)、和毒品重量实体(NW)`，关系分别为`贩卖给（人）( sell_drug_to )，贩卖（毒品）( traffic_in )，持有( possess )，非法容留( provide_shelter_for )`。
 
     ```python
