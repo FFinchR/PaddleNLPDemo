@@ -7,7 +7,7 @@ PaddleNLP Taskflow UIE（通用信息抽取）案例预研与搭建
 4. 在法律判决书场景与涉毒类法律文书场景中使用UIE工具完成零样本抽取，结果表示在细分场景下，零样本抽取效果有限。
 5. 通过小样本训练，微调UIE模型，提升抽取效果。
 
-法律场景-判决书抽取
+### PaddleNLP案例 法律场景-判决书抽取
 
 ![image](https://user-images.githubusercontent.com/40840292/169017863-442c50f1-bfd4-47d0-8d95-8b1d53cfba3c.png)
 ## PaddleNLP安装
