@@ -1,11 +1,11 @@
 # PaddleNLP信息抽取uie-demo
 ## Content
 PaddleNLP Taskflow UIE（通用信息抽取）案例预研与搭建
-1. 完成Taskflow UIE工具的Windows与Linux环境搭建。
-2. 使用doccano标注工具完成法律判决书数据的标注与导出。
-3. 改造工具类，使其适配涉毒类法律文书数据格式（NYT数据集格式）
-4. 在法律判决书场景与涉毒类法律文书场景中使用UIE工具完成零样本抽取，结果表示在细分场景下，零样本抽取效果有限。
-5. 通过小样本训练，微调UIE模型，提升抽取效果。
+1. 完成Taskflow UIE工具的Windows与Linux环境搭建。[PaddleNLP安装](## PaddleNLP安装) [模型微调-安装PaddlePaddle、CUDA等](#### 2.4 模型微调)
+2. 使用doccano标注工具完成法律判决书数据的标注与导出。[doccano标注数据](#### 2.2 标注数据)
+3. 改造工具类，使其适配涉毒类法律文书数据格式（NYT数据集格式）[util_cust工具类改造](#### 涉毒类法律文书场景)
+4. 在法律判决书场景与涉毒类法律文书场景中使用UIE工具完成零样本抽取，结果表示在细分场景下，零样本抽取效果有限。[开箱即用](### 1.开箱即用)
+5. 通过小样本训练，微调UIE模型，提升抽取效果。[定制模型预测](#### 2.6 定制模型预测)
 
 ### PaddleNLP案例 法律场景-判决书抽取
 
@@ -324,7 +324,6 @@ pip install paddlepaddle -i https://mirror.baidu.com/pypi/simple
 #### 涉毒类法律文书场景
   - 由于该数据集格式参考NYT数据集格式，PaddleNLP提供的数据形式转换工具无法直接使用，所以需要对其进行改造。详细改造内容可见[utils_cust.py](./uie/utils_cust.py)
   - 接着需要将[train.json](./data/CAIL2022_ie/train.json)放入`./data`目录下，并修改其实体名与关系名为中文。
-  - todo 数据形式转换工具的改造还存在问题
   ```shell
     python ./uie/doccano_cust.py 
           --doccano_file ./data/small_train.json 
