@@ -15,6 +15,11 @@ def drug_ie(content):
     pprint(content)
     pprint(ie(content))  # Better print results using pprint
 
+def test_ie(content):
+    schema = ['小区名字', '岗位职责']
+    ie=Taskflow('information_extraction', schema=schema)
+    pprint(content)
+    pprint(ie(content))
 
 if __name__ == '__main__':
     # legal_judgement_ie("上海金融法院"
@@ -28,7 +33,8 @@ if __name__ == '__main__':
     #           "法定代表人：陈易明，总经理。"
     #           "委托诉讼代理人：邹华恩，北京德和衡（上海）律师事务所律师。"
     #           "委托诉讼代理人：王坤，北京德和衡（上海）律师事务所律师。")
-    with open("./data/CAIL2022_ie/step1_test.json", "r", encoding="utf-8") as f:
-        raw_examples = f.readlines()
-    line = raw_examples[92]
-    drug_ie(line)
+    # with open("./data/CAIL2022_ie/step1_test.json", "r", encoding="utf-8") as f:
+    #     raw_examples = f.readlines()
+    # line = raw_examples[92]
+    # drug_ie(line)
+    test_ie("这也让很多业主据此认为，雅清苑是政府公务员挤对了国家的经适房政策。")
