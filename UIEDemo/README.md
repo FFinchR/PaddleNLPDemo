@@ -605,6 +605,78 @@ python ./uie/evaluate.py
            'text': '陆xx'}]}]
   ```
   标注结果相比zero-shot正确率有所提升。
+#### 2.7 模型部署
+以下是UIE Python端的部署流程，包括环境准备、模型导出和使用示例。
+
+- 环境准备
+  UIE的部署分为CPU和GPU两种情况，请根据你的部署环境安装对应的依赖。
+
+  - CPU端
+
+    CPU端的部署请使用如下命令安装所需依赖
+
+    ```shell
+    pip install -r deploy/python/requirements_cpu.txt
+    ```
+
+  - GPU端
+
+    为了在GPU上获得最佳的推理性能和稳定性，请先确保机器已正确安装NVIDIA相关驱动和基础软件，确保**CUDA >= 11.2，cuDNN >= 8.1.1**，并使用以下命令安装所需依赖
+
+    ```shell
+    pip install -r deploy/python/requirements_gpu.txt
+    ```
+
+    如需使用半精度（FP16）部署，请确保GPU设备的CUDA计算能力 (CUDA Compute Capability) 大于7.0，典型的设备包括V100、T4、A10、A100、GTX 20系列和30系列显卡等。
+    更多关于CUDA Compute Capability和精度支持情况请参考NVIDIA文档：[GPU硬件与支持精度对照表](https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-840-ea/support-matrix/index.html#hardware-precision-matrix)
+
+
+- 模型导出
+
+  将训练后的动态图参数导出为静态图参数：
+
+  ```shell
+  python export_model.py --model_path ./checkpoint/model_best --output_path ./export
+  ```
+
+  可配置参数说明：
+
+  - `model_path`: 动态图训练保存的参数路径，路径下包含模型参数文件`model_state.pdparams`和模型配置文件`model_config.json`。
+  - `output_path`: 静态图参数导出路径，默认导出路径为`./export`。
+
+- 推理
+
+  - CPU端推理样例
+
+    在CPU端，请使用如下命令进行部署
+
+    ```shell
+    python deploy/python/infer_cpu.py --model_path_prefix export/inference
+    ```
+
+    可配置参数说明：
+
+    - `model_path_prefix`: 用于推理的Paddle模型文件路径，需加上文件前缀名称。例如模型文件路径为`./export/inference.pdiparams`，则传入`./export/inference`。
+    - `position_prob`：模型对于span的起始位置/终止位置的结果概率0~1之间，返回结果去掉小于这个阈值的结果，默认为0.5，span的最终概率输出为起始位置概率和终止位置概率的乘积。
+    - `max_seq_len`: 文本最大切分长度，输入超过最大长度时会对输入文本进行自动切分，默认为512。
+    - `batch_size`: 批处理大小，请结合机器情况进行调整，默认为4。
+
+  - GPU端推理样例
+
+    在GPU端，请使用如下命令进行部署
+
+    ```shell
+    python deploy/python/infer_gpu.py --model_path_prefix export/inference --use_fp16
+    ```
+
+    可配置参数说明：
+
+    - `model_path_prefix`: 用于推理的Paddle模型文件路径，需加上文件前缀名称。例如模型文件路径为`./export/inference.pdiparams`，则传入`./export/inference`。
+    - `use_fp16`: 是否使用FP16进行加速，默认关闭。
+    - `position_prob`：模型对于span的起始位置/终止位置的结果概率0~1之间，返回结果去掉小于这个阈值的结果，默认为0.5，span的最终概率输出为起始位置概率和终止位置概率的乘积。
+    - `max_seq_len`: 文本最大切分长度，输入超过最大长度时会对输入文本进行自动切分，默认为512。
+    - `batch_size`: 批处理大小，请结合机器情况进行调整，默认为4。
+
 
 
 
