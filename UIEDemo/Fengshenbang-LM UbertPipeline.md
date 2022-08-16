@@ -247,7 +247,11 @@ Ubert在自己提供的示例中表现很好，但在预测UIE提供的测试数
 
 # 4. finetune使用
 
-开源的模型我们已经经过大量的数据进行预训练而得到，可以直接进行 Zero-Shot，如果你还想继续finetune,可以参考我们的 [example.py](https://github.com/IDEA-CCNL/Fengshenbang-LM/blob/main/fengshen/examples/ubert/example.py)。你只需要将我们数据预处理成为我们定义的格式，即可使用简单的几行代码完成模型的训练和推理。我们是复用 pytorch-lightning 的 trainer 。在训练时，可以直接传入 trainer 的参数，此外我们还定义了一些其他参数。常用的参数如下：
+对细分场景继续finetune,参考 [example.py](https://github.com/IDEA-CCNL/Fengshenbang-LM/blob/main/fengshen/examples/ubert/example.py)，需要将数据预处理成指定的格式。
+
+该训练复用了 pytorch-lightning 的 trainer 。在训练时，可以直接传入 trainer 的参数。
+
+此外还定义了一些其他参数。常用的参数如下：
 
 ```
 --pretrained_model_path       #预训练模型的路径，默认
@@ -267,3 +271,36 @@ Ubert在自己提供的示例中表现很好，但在预测UIE提供的测试数
 --max_length                  #句子最大长度， 默认 512
 --num_labels                  #训练每条样本最多取多少个label，超过则进行随机采样负样本， 默认 10
 ```
+
+```shell
+python finetune.py --batch 1
+```
+以下是训练轮次为500轮次，finetune后的模型的标注结果：
+```text
+{'choices': [{'entity_list': [{'entity_name': '上海金融法院',
+                               'score': 0.9999988434740585}],
+              'entity_type': '法院'},
+             {'entity_list': [{'entity_name': '海发宝诚融资租赁有限公司（',
+                               'score': 0.9335503554681707},
+                              {'entity_name': '海发宝诚融资租赁有限公司（原名中远海运租赁有限公司），',
+                               'score': 0.7926754172407782}],
+              'entity_type': '原告'},
+             {'entity_list': [{'entity_name': '邹华恩，',
+                               'score': 0.9999987154828944},
+                              {'entity_name': '王坤，',
+                               'score': 0.99999362037407}],
+              'entity_type': '原告委托代理人'},
+             {'entity_list': [{'entity_name': '潢川县发展投资有限责任公司，',
+                               'score': 0.9999978690812292}],
+              'entity_type': '被告'},
+             {'entity_list': [{'entity_name': '李明修，',
+                               'score': 0.995225242199723},
+                              {'entity_name': '李阳，',
+                               'score': 0.999994859682157}],
+              'entity_type': '被告委托代理人'}],
+ 'id': 0,
+ 'subtask_type': '实体识别',
+ 'task_type': '抽取任务',
+ 'text': '上海金融法院民事判决书案号：（2022）沪74民终186号上诉人（原审被告）：潢川县发展投资有限责任公司，住所地河南省信阳市潢川县财政局。法定代表人：梅利平，董事长。委托诉讼代理人：李明修，该公司员工。委托诉讼代理人：李阳，河南捷达律师事务所律师。被上诉人（原审原告）：海发宝诚融资租赁有限公司（原名中远海运租赁有限公司），住所地中国（上海）自由贸易试验区福山路450号3E室。法定代表人：陈易明，总经理。委托诉讼代理人：邹华恩，北京德和衡（上海）律师事务所律师。委托诉讼代理人：王坤，北京德和衡（上海）律师事务所律师。'}
+```
+可以看出，相比Zero-shot，标注准确度大大提升。
