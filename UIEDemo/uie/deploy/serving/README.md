@@ -1,0 +1,1 @@
+# 本目录是我尝试自己参考ernie 3.0的Paddle Serving写的UIE Paddle Serving部署代码，目前还不可用！
