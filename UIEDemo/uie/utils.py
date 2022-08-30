@@ -468,12 +468,14 @@ def convert_ext_examples(raw_examples,
                     text, relations, entities = items["text"], items[
                         "relations"], items["entities"] #todo text => sentText, relations => relationMentions, entities => entityMentions
             texts.append(text)
-
+            print(text)
+            print(entities)
             entity_example = []
             entity_prompt = []
             entity_example_map = {}
             entity_map = {}  # id to entity name
             for entity in entities:
+                print(entity)
                 entity_name = text[entity["start_offset"]:entity["end_offset"]]
                 entity_map[entity["id"]] = { #todo 添加实体id
                     "name": entity_name,
@@ -513,7 +515,6 @@ def convert_ext_examples(raw_examples,
                 if entity_name not in entity_name_set:
                     entity_name_set.append(entity_name)
                 entity_prompt.append(entity_label)
-
             for v in entity_example_map.values():
                 entity_example.append(v)
 
