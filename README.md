@@ -28,6 +28,7 @@
 
 ### PaddleOCR + PaddleNLP应用
 [使用PaddleNLP UIE模型抽取PDF版上市公司公告](https://aistudio.baidu.com/aistudio/projectdetail/4497591?channelType=0&channel=0)
+[PaddleOCR 关键信息抽取](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/kie.md)
 
 ## 总结
 ### UIE信息抽取框架
