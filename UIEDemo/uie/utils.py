@@ -500,6 +500,7 @@ def convert_ext_examples(raw_examples,
                     "start": entity["start_offset"], #todo start_offset => start
                     "end": entity["end_offset"] #todo end_offset => end
                 }
+
                 if entity_label not in entity_example_map.keys():
                     entity_example_map[entity_label] = {
                         "content": text,
