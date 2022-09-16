@@ -58,11 +58,11 @@ cd PaddleOCR
 
 - 启动之前创建的容器
 
-`docker start paddle_docker`
+`podman start paddle_docker`
 
 - 进入启动的容器
 
-`docker attach paddle_docker`
+`podman attach paddle_docker`
 
 # 1. 数据集下载
 
