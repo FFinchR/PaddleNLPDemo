@@ -1,7 +1,7 @@
 1. 使用PaddleOCR提取扫描文本内容
 2. 使用PaddleNLP抽取自定义信息
+![preview](https://ai-studio-static-online.cdn.bcebos.com/54f3053e6e1b47a39b26e757006fe2c44910d60a3809422ab76c25396b92e69b)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c3bd4a68-742d-40c7-92a4-316808f8037f/Untitled.png)
 
 # 0. 环境搭建
 
