@@ -46,7 +46,7 @@ cd PaddleOCR
 
 启动容器：
 
-**`podman run --name paddle_docker --shm-size=2g -it -v $PWD:/opt/paddleocr** 2.3.2-gpu-cuda11.2-cudnn8:paddleocr **/bin/bash**`
+`podman run --name paddle_docker --shm-size=2g -it -v $PWD:/opt/paddleocr 2.3.2-gpu-cuda11.2-cudnn8:paddleocr /bin/bash`
 
 安装依赖环境：
 
@@ -58,11 +58,11 @@ cd PaddleOCR
 
 - 启动之前创建的容器
 
-**`docker start paddle_docker`**
+`docker start paddle_docker`
 
 - 进入启动的容器
 
-**`docker attach paddle_docker`**
+`docker attach paddle_docker`
 
 # 1. 数据集下载
 
@@ -143,7 +143,7 @@ python3 tools/infer_kie_token_ser.py -c configs/kie/vi_layoutxlm/ser_vi_layoutxl
 
 预测图片如下所示，图片会存储在`Global.save_res_path`路径中。
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/18fd9c41-3e2e-481e-a94f-e12fd4824920/Untitled.jpeg)
+![zh_val_42_ser](https://user-images.githubusercontent.com/61258341/190610613-26730ff2-0ec5-440a-b6d6-1351c6fcffdb.jpg)
 
 预测过程中，默认会加载PP-OCRv3的检测识别模型，用于OCR的信息抽取，如果希望加载预先获取的OCR结果，可以使用下面的方式进行预测，指定`Global.infer_img`为标注文件，其中包含图片路径以及OCR信息，同时指定`Global.infer_mode`为False，表示此时不使用OCR预测引擎。
 
@@ -153,7 +153,7 @@ python3 tools/infer_kie_token_ser.py -c configs/kie/vi_layoutxlm/ser_vi_layoutxl
 
 对于上述图片，如果使用标注的OCR结果进行信息抽取，预测结果如下。
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c8fc324a-d041-46c9-9a34-400902355263/Untitled.jpeg)
+![zh_val_42_ser](https://user-images.githubusercontent.com/61258341/190610720-7d55f431-8ad0-4235-9ff9-097013043556.jpg)
 
 可以看出，部分检测框信息更加准确，但是整体信息抽取识别结果基本一致。
 
@@ -198,4 +198,4 @@ python3 kie/predict_kie_token_ser.py \
 
 可视化SER结果结果默认保存到`./output`文件夹里面。结果示例如下：
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/71be9365-9782-4a6c-9a41-7b6f2d873e51/Untitled.jpeg)
+![zh_val_42_ser](https://user-images.githubusercontent.com/61258341/190610814-b4212b84-9bd9-4393-b8c4-3b9ccfa43347.jpg)
