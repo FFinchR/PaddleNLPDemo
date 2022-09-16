@@ -26,6 +26,9 @@
 
 [GitHub--Fengshenbang-LM](https://github.com/IDEA-CCNL/Fengshenbang-LM)
 
+### PaddleOCR + PaddleNLP应用
+[使用PaddleNLP UIE模型抽取PDF版上市公司公告](https://aistudio.baidu.com/aistudio/projectdetail/4497591?channelType=0&channel=0)
+
 ## 总结
 ### UIE信息抽取框架
 UIE是PaddleNLP结合文心大模型中的知识增强NLP大模型ERNIE 3.0开源的首个面向通用信息抽取的产业级技术方案，不需要标注数据（或仅需少量标注数据），即可快速完成实体，关系，事件，情感等各类信息抽取任务。
