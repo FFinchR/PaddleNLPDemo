@@ -257,7 +257,7 @@ pprint(ie(all_context))
 - 开启`use_dilatiion=True` 膨胀分割区域
 - 调小`det_db_box_thresh`阈值
 
-```json
+```python
 # 重新实例化 PaddleOCR
 ocr = PaddleOCR(use_angle_cls=False, lang="ch", det_db_box_thresh=0.3, use_dilation=True)
 
