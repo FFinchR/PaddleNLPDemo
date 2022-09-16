@@ -55,11 +55,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 - 启动之前创建的容器
 
-`docker start ocr-nlp`
+`podman start ocr-nlp`
 
 - 进入启动的容器
 
-`docker attach ocr-nlp`
+`podman attach ocr-nlp`
 
 # 1. 扫描合同文本内容提取
 
