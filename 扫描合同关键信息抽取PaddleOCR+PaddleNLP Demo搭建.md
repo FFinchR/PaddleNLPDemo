@@ -1,3 +1,4 @@
+# 扫描合同关键信息抽取PaddleOCR+PaddleNLP Demo搭建
 1. 使用PaddleOCR提取扫描文本内容
 2. 使用PaddleNLP抽取自定义信息
 
