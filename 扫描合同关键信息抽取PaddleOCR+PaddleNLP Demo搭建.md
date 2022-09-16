@@ -1,6 +1,7 @@
 1. 使用PaddleOCR提取扫描文本内容
 2. 使用PaddleNLP抽取自定义信息
-![preview](https://ai-studio-static-online.cdn.bcebos.com/54f3053e6e1b47a39b26e757006fe2c44910d60a3809422ab76c25396b92e69b)
+
+![image](https://user-images.githubusercontent.com/61258341/190606142-8258ae53-9ba6-40b3-82d8-1e21c05dfb44.png)
 
 
 # 0. 环境搭建
@@ -65,7 +66,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 使用一张合同图片作为测试样本，感受ppocrv3模型效果：
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6e7f9c2a-c196-4cd4-bf8d-b9a472fec583/Untitled.png)
+![image](https://user-images.githubusercontent.com/61258341/190606254-fc632612-ac9e-4c7f-b414-6fffc8f050d1.png)
 
 使用中文检测+识别模型提取文本，实例化PaddleOCR类：
 
@@ -126,7 +127,7 @@ im_show.show()
 im_show.save("./test_img/ocr_hetong2.jpg")
 ```
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/92f1ff9b-f039-467d-b3af-ac19d18a3114/Untitled.png)
+![image](https://user-images.githubusercontent.com/61258341/190606321-56ea9033-5b6b-42f1-8f66-ce74ad839256.png)
 
 ## 1.2 ****图片预处理****
 
@@ -246,7 +247,9 @@ pprint(ie(all_context))
 
 实际图片采集过程中，可能出现部分图片弯曲等问题，导致使用默认参数识别文本时存在漏检，影响关键信息获取。
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b3e362d9-1bca-43d1-9157-03210dfb3c7b/Untitled.png)
+![image](https://user-images.githubusercontent.com/61258341/190606463-98de1a36-3636-457c-9bae-8aba87e9c1c5.png)
+
+
 
 可视化结果可以看到，弯曲图片存在漏检，一般来说可以通过调整后处理参数解决，无需重新训练模型。漏检问题往往是因为检测模型获得的分割图太小，生成框的得分过低被过滤掉了，通常有两种方式调整参数：
 
@@ -271,6 +274,6 @@ im_show = Image.fromarray(im_show)
 im_show.show()
 ```
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b18f521e-47df-4600-892d-bfde4eb50c14/Untitled.png)
+![image](https://user-images.githubusercontent.com/61258341/190606485-bcb154b4-82eb-4717-949b-920a26393828.png)
 
 可以看到漏检问题被很好的解决。
